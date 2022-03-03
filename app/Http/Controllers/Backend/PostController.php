@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request; Se quita para cambiar a mis normas.
 
 class PostController extends Controller
 {
@@ -38,8 +39,19 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+        $post = Post::create([
+            'user_id'=> auth()->id()
+        ]) + $request->all();
+        
+
+        if($request->file('file')){
+            $post->image = $request->file('file')->store('posts', 'public');
+            $post->save();
+        }
+
+        return  back()->with('sesion', 'Creado con éxito');
         //
     }
 
@@ -72,7 +84,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         //
     }

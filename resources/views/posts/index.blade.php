@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">ARTICULOS
-                    <a href="{{route('posts.index')}}" class="btn btn-sm btn-primary"> Crear </a>
+                    <a href="{{route('posts.create')}}" class="btn btn-sm btn-primary"> Crear </a>
                 </div>
 
                 <div class="card-body">
