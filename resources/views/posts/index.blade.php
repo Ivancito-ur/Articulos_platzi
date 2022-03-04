@@ -30,7 +30,8 @@
                                 <td>{{ $post->id }}</td>
                                 <td>{{ $post->title }}</td>
                                 <td>
-                                    <a href="{{route('posts.edit', $post)}}" class="btn btn-primary  btn-sm">Editar</a>
+                                   
+                                    <a href="{{route('posts.edit', $post)}}" class="btn btn-success btn-sm">Editar</a>
                                 </td>
                                 <td>
                                     <form action="{{route('posts.destroy', $post)}}" method="POST">

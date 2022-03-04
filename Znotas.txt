@@ -1,0 +1,6 @@
+Estos son notas para la realizacion del proyecto
+
+1- Crear el proyecto en laravel: composer create-project laravel/laravel:^8.0 basic
+2- Instalar la autenticacion: composer require laravel/ui --dev}
+3- Crear los modelos: php artisan make:model Nombre -mfc (Crea la migracion, factory y conrolador)
+4- Crar el controlador con los metodos resource: php artisan make:controller NombreController -r

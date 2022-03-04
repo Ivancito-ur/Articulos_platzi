@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 //use Illuminate\Http\Request; Se quita para cambiar a mis normas.
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -43,7 +44,7 @@ class PostController extends Controller
     {
         $post = Post::create([
             'user_id'=> auth()->id()
-        ]) + $request->all();
+        ] + $request->all()) ;
         
 
         if($request->file('file')){
@@ -51,20 +52,10 @@ class PostController extends Controller
             $post->save();
         }
 
-        return  back()->with('sesion', 'Creado con éxito');
+        return  back()->with('status', 'Creado con éxito');
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -74,7 +65,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        //dd(compact('post'));
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -86,7 +78,16 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        //
+        
+        $post->update($request->all());
+        //Eliminar imagen
+        if($request->file('file')){
+            Storage::disk('public')->delete($post->image); //Para eliminar en el storegae
+            $post->image = $request->file('file')->store('posts', 'public');
+            $post->save();
+        }
+
+        return back()->with('status', 'Actualizado con éxtio.');
     }
 
     /**
@@ -98,5 +99,8 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        Storage::disk('public')->delete($post->image); //Para eliminar en el storegae
+        $post->delete();
+        return back()->with('status', 'Elimando con éxito.');
     }
 }
